@@ -2,3 +2,22 @@
 {
   box-sizing: border-box;
 }
+
+.flex-direction-column{flex-direction:column;}
+
+.bg-darkblue{
+  background-color: darkblue;
+}
+
+.view-more{
+  width: 20%;
+}
+
+@media screen and ( width <= 769px){
+
+  .flex-direction-column-sm{flex-direction:column;}
+  .view-more{
+    width: 100%;
+  }
+  
+}
