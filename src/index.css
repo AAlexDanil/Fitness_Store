@@ -13,6 +13,18 @@
   width: 20%;
 }
 
+.mw-75{
+  max-width: 75%;
+}
+
+.w-33{
+  width: 33%;
+}
+
+.w-30{
+  width: 30%;
+}
+
 @media screen and ( width <= 769px){
 
   .flex-direction-column-sm{flex-direction:column;}
