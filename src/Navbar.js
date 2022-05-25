@@ -1,5 +1,6 @@
 import {BsCart4}from "react-icons/bs";
 import "./index.css";
+import {Link} from "react-router-dom";
 
 function Navbar() {
   return (
@@ -7,7 +8,9 @@ function Navbar() {
       <div className='d-flex justify-content-between bg-light' style={{height:"150px"}}> 
       
       <div className="d-flex justify-content-center w-xs-75 w-sm-25 h-100 align-items-center" >
+        <Link to='/' className="text-black">
         <h2 className="pt-4 ps-4 ps-lg-5">Fitness Store</h2>
+        </Link>
       </div>
       
       <div className="d-flex justify-content-end w-25 h-100 ">

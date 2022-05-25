@@ -1,12 +1,29 @@
 *
 {
   box-sizing: border-box;
+
+
 }
+
+a:link { text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
 
 .flex-direction-column{flex-direction:column;}
 
 .bg-darkblue{
   background-color: darkblue;
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }
 
 .view-more{
@@ -24,6 +41,36 @@
 .w-30{
   width: 30%;
 }
+
+
+.bg-red{
+  background-color: red;
+}
+
+.bg-orange{
+  background-color: orange;
+}
+
+.bg-yellow{
+  background-color: yellow;
+}
+
+.bg-green{
+  background-color: green;
+}
+
+.bg-blue{
+  background-color: blue;
+}
+
+.bg-indigo{
+  background-color: indigo;
+}
+
+.bg-violet{
+  background-color: violet;
+}
+
 
 @media screen and ( width <= 769px){
 
