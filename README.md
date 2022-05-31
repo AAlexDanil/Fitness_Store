@@ -15,7 +15,7 @@ https://webshop-36469.web.app/
 You must run server start otherwise all the information from the database won't load and it will say loading on mostly everything.
 
 ### backend Links
-/backend/add-cat to add a category
-/backend/add-prod to add a product
-/backend/edit-cat to edit a category
-/backend/edit-prod to edit a product
+/backend/add-cat to add a category <br />
+/backend/add-prod to add a product <br />
+/backend/edit-cat to edit a category <br />
+/backend/edit-prod to edit a product <br />
