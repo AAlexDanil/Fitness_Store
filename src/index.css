@@ -5,6 +5,26 @@
 
 }
 
+
+.camera{
+  width: 100px;
+  height: 200px;
+  z-index: 0;
+}
+
+.z-1{
+  z-index: 1;
+}
+.z-2{
+  z-index: 2;
+}
+.z-3{
+  z-index: 3;
+}
+.z-4{
+  z-index: 4;
+}
+
 a:link { text-decoration: none; }
 
 
@@ -34,6 +54,17 @@ a:active { text-decoration: none; }
   max-width: 75%;
 }
 
+.overflow-visable{
+  overflow: visible
+}
+
+.mw-50{
+  max-width: 50%;
+}
+.mw-25{
+  max-width: 25%;
+}
+
 .w-33{
   width: 33%;
 }
@@ -42,6 +73,13 @@ a:active { text-decoration: none; }
   width: 30%;
 }
 
+.w-45{
+  width: 45%;
+}
+
+.font-weight-bold{
+  font-weight: bold;
+}
 
 .bg-red{
   background-color: red;
@@ -73,7 +111,12 @@ a:active { text-decoration: none; }
 
 
 @media screen and ( width <= 769px){
-
+  .w-sm-45{
+    width: 45%;
+  }
+  .w-sm-100{
+    width: 100%;
+  }
   .flex-direction-column-sm{flex-direction:column;}
   .view-more{
     width: 100%;

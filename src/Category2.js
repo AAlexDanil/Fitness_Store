@@ -11,52 +11,6 @@ import Category1 from "./Category1";
 
 function Category2({ category }) {
 
-    const [filteredArray, setFilteredArray] = useState([1,2,3])
-    const [cats, setCats] = useState(null)
-
-    const getCats = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/getCat')
-            setCats(response.data)
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-
-
-    useEffect(() => {
-        if (!cats) {
-            getCats()
-        }
-
-    }, [])
-
-    const [products, setProducts] = useState(null);
-
-
-    const getProd = async () => {
-        try {
-
-            const response = await axios.get('http://localhost:8000/getProdCat/' + category)
-            console.log(response.data)
-            setProducts(response.data)
-
-
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    useEffect(() => {
-        if (!products) {
-            getProd()
-        } 
-
-    }, [])
-
-
     const filterArrayHighToLow = (arr) => {
         var temp = arr;
         var y;
@@ -69,9 +23,10 @@ function Category2({ category }) {
                 }
             }
         }
-        return(temp)
+        return (temp)
 
     }
+
 
     const filterArrayLowToHigh = (arr) => {
         var temp = arr;
@@ -85,8 +40,9 @@ function Category2({ category }) {
                 }
             }
         }
-        return(temp)
+        return (temp)
     }
+
 
     const filterArrayAss = (arr) => {
         var temp = arr;
@@ -100,7 +56,7 @@ function Category2({ category }) {
                 }
             }
         }
-        return(temp)
+        return (temp)
     }
 
 
@@ -116,12 +72,50 @@ function Category2({ category }) {
                 }
             }
         }
-        return(temp)
+        return (temp)
+    }
+
+    if (!(JSON.parse(sessionStorage.getItem("filter")))) {
+        filter = 0
+    } else {
+        var filter = JSON.parse(sessionStorage.getItem("filter"));
+    }
+
+ 
+    var myProds = JSON.parse(sessionStorage.getItem("myProds"));
+    var products = [];
+    for(var i = 0; i < myProds.length;i++){
+        if( myProds[i].prodCat === category){
+            products.push(myProds[i])
+        }
+    }
+    console.log(filter)
+    if(filter){
+        if(filter === "1"){
+            products = filterArrayHighToLow(products)
+        }else if (filter === "2"){
+            console.log('test')
+            products = filterArrayLowToHigh(products)
+        }else if (filter === "3"){
+            products = filterArrayAss(products)
+        }else if (filter ==="4"){
+            products = filterArrayDes(products)
+        }
+
     }
 
 
+
+
+{console.log(products)}
+
     function displayCats(cats) {
         if (cats) {
+            for(var i = 0; i < cats.length; i++){
+                if (cats[i].products.length === 0){
+                  cats.splice(i,1)
+                }
+              }
             const categories = cats.map(({ id, catName, catDesc, color, products }) =>
 
 
@@ -145,31 +139,13 @@ function Category2({ category }) {
         }
     }
 
-    const handleChange = (e) =>{
-        if(e.target.value === "1"){
-            setProducts(filterArrayHighToLow(products))
-            setFilteredArray([...filteredArray])
-        }
-        if(e.target.value === "2"){
-            
-            setProducts(filterArrayLowToHigh(products))
-            setFilteredArray([...filteredArray])
-        }
-
+    const handleChange = (e) => {
+        console.log(e.target.value)
+        sessionStorage.setItem("filter", JSON.stringify(e.target.value))
+        window.location.reload()
     }
 
-    const handleChange1 = (e) =>{
-        if(e.target.value === "3"){
-            
-            setProducts(filterArrayAss(products))
-            setFilteredArray([...filteredArray])
-        }
-        if(e.target.value === "4"){
-            
-            setProducts(filterArrayDes(products))
-            setFilteredArray([...filteredArray])
-        }
-    }
+
 
     return (
 
@@ -178,21 +154,22 @@ function Category2({ category }) {
                 <div className="w-100 d-flex flex-wrap justify-content-center align-items-center ps-3">
 
                     Filter by :
-                    <select className="form-select w-25 m-2" aria-label="Default select example" onChange={(e)=> handleChange(e)}>
-                        <option>Price</option>
-                        <option value="1">High - Low</option>
-                        <option value="2">Low - High</option>
+                    <select className="form-select w-25 m-2" aria-label="Default select example" onChange={(e)=>handleChange(e)} value={filter < 3 ? filter : "0"}>
+                        <option value="0">Price</option>
+                        <option value="1" >High - Low</option>
+                        <option value="2" >Low - High</option>
                     </select>
 
-                    <select className="form-select w-25 m-2" aria-label="Default select example" onChange={(e)=> handleChange1(e)}>
-                        <option>Name</option>
+                    <select className="form-select w-25 m-2" aria-label="Default select example" onChange={(e)=>handleChange(e)} value={filter > 2 ? filter : "0"}>
+                        <option value="0">Name</option>
                         <option value="3"> A - Z</option>
                         <option value="4"> Z - A</option>
                     </select>
+
                 </div>
                 <div className="row">
                     <div className="col-2 d-lg-block d-none">
-                        {displayCats(cats)}
+                        {displayCats(JSON.parse(sessionStorage.getItem("myCats")))}
                     </div>
 
                     <Category1 category={category} products={products}></Category1>

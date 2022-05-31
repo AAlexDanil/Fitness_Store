@@ -4,10 +4,61 @@ import {
   RiStarLine
 } from "react-icons/ri";
 
-function ProductPage({name,desc,price, img, catName}) {
+
+
+
+function ProductPage({ id, name, desc, price, img, catName }) {
   function displayImg(data) {
     return <img className="mw-100" width={1000} height={600} alt="test" src={`data:image/png;base64,${data}`} />
-}
+  }
+  if (!(JSON.parse(sessionStorage.getItem("myCart")))) {
+    cart = []
+  } else {
+    var cart = JSON.parse(sessionStorage.getItem("myCart"));
+  }
+
+  const handleCart = async () => {
+    if (cart.length > 0){
+      for (var i = 0; i < cart.length; i++) {
+        if (cart[i].productId === id) {
+          cart[i].amount++
+          break
+        } else {
+          var cartItem = {
+            productId: id,
+            productName: name,
+            productImage: img,
+            productPrice: price,
+            amount: 1
+          }
+          cart.push(cartItem)
+          break
+  
+        }
+      }
+
+    }else {
+      var cartItem = {
+        productId: id,
+        productName: name,
+        productImage: img,
+        productPrice: price,
+        amount: 1
+      }
+      cart.push(cartItem)
+    }
+
+
+    alert('Item Added to Cart')
+    window.location.reload()
+    sessionStorage.setItem("myCart", JSON.stringify(cart));
+  }
+
+
+  function getCart() {
+    var test = sessionStorage.getItem("myCart");
+    console.log(JSON.parse(test));
+  }
 
   return (
     <>
@@ -29,10 +80,10 @@ function ProductPage({name,desc,price, img, catName}) {
                 <RiStarLine size={30} />
               </div>
               <p className="pt-3">
-                  {desc}
+                {desc}
               </p>
               <p className="text-center">{price} kr</p>
-              <button className="btn btn-outline-secondary w-75"> Lägg till Varukorgen</button>
+              <button className="btn btn-outline-secondary w-75" onClick={handleCart}> Add to cart</button>
             </div>
           </div>
         </div>

@@ -15,16 +15,38 @@ import Category2 from './Category2';
 import ProductPage from './ProductPage';
 import Addcat from './Addcat';
 import Addproduct from './Addproduct';
+import Editcat from "./Editcat";
+import Editcatsingle from "./Editcatsingle";
+import Editprod from "./Editprod";
+import Editprodsingle from "./Editprodsingle";
+import Search from "./Search";
+import Cart from "./Cart";
 
 
 function App() {
 
-  const [cats, setCats] = useState(null)
 
+
+
+
+  const [cats, setCats] = useState(null)
+  const [testArr, setTestArr] = useState(null)
   const getCats = async () => {
     try {
       const response = await axios.get('http://localhost:8000/getCat')
+
       setCats(response.data)
+      sessionStorage.setItem("myCats", JSON.stringify(response.data))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getCats1 = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/getCat')
+      setTestArr(response.data)
+      sessionStorage.setItem("testArr", JSON.stringify(response.data))
     } catch (err) {
       console.log(err)
     }
@@ -35,7 +57,14 @@ function App() {
       getCats()
     }
 
-  }, [])
+  }, [cats])
+
+  useEffect(() => {
+    if (!testArr) {
+      getCats1()
+    }
+
+  }, [testArr])
 
 
   const [products, setProducts] = useState(null);
@@ -46,7 +75,7 @@ function App() {
 
       const response = await axios.get('http://localhost:8000/getProd')
       setProducts(response.data)
-
+      sessionStorage.setItem("myProds", JSON.stringify(response.data))
 
 
     } catch (err) {
@@ -57,20 +86,30 @@ function App() {
   useEffect(() => {
     if (!products) {
       getProd()
+      
     }
 
   }, [])
-  function displayCats(cats) {
-    if (cats) {
-      const categories = cats.map(({ id, catName, catDesc, color, products }) =>
+  function displayCats(arr) {
+
+    if (arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].products.length === 0) {
+          arr.splice(i, 1)
+        }
+      }
+      const categories = arr.map(({ id, catName, catDesc, color, products }) =>
+
         <Link className="link" to={"/" + catName + id}>
           <Category name={catName} desc={catDesc} color={color} img1={products[0]} img2={products[1] ? products[1] : products[0]} img3={products[2] ? products[2] : products[0]} />
         </Link>
       )
       return (categories)
+
     } else {
       return (<p className="text-center"> Loading....</p>)
     }
+
   }
 
   function displayLinks(cats) {
@@ -92,6 +131,41 @@ function App() {
     }
   }
 
+  function displayLinksEdit(cats1) {
+    if (cats1) {
+      const links = cats1.map(({ id, catName }) =>
+        <Route exact path={'/backend/' + catName + id} element={
+          <>
+
+            <Editcatsingle id={id} />
+
+          </>
+        } />
+      )
+      return (
+        links
+      )
+    }
+  }
+
+
+  function displayLinksEditProd(prod) {
+    if (prod) {
+      const links = prod.map(({ id, prodName }) =>
+        <Route exact path={'/backend/' + prodName.replaceAll(' ', '%20') + id} element={
+          <>
+
+            <Editprodsingle id={id} />
+
+          </>
+        } />
+      )
+      return (
+        links
+      )
+    }
+  }
+
   function displayLinksProd(products) {
     if (products) {
       const links = products.map(({ id, prodName, prodDesc, price, prodImg, prodCat }) =>
@@ -99,7 +173,7 @@ function App() {
           <>
             <Navbar />
 
-            <ProductPage name={prodName} desc={prodDesc} price={price} img={prodImg} catName={prodCat} />
+            <ProductPage id={id} name={prodName} desc={prodDesc} price={price} img={prodImg} catName={prodCat} />
 
             <Footer />
           </>
@@ -113,24 +187,26 @@ function App() {
 
   return (
     <>
-      <Router>
 
+      <Router>
         <Routes>
           <Route exact path="/" element={
             <>
               <Navbar />
-
-              {displayCats(cats)}
+              <Search />
+              {displayCats(JSON.parse(sessionStorage.getItem("testArr")))}
 
               <Footer />
             </>
 
           } />
 
+          {displayLinksEdit(JSON.parse(sessionStorage.getItem("myCats")))}
+          {displayLinks(JSON.parse(sessionStorage.getItem("myCats")))}
 
-          {displayLinks(cats)}
 
-          {displayLinksProd(products)}
+          {displayLinksEditProd(JSON.parse(sessionStorage.getItem("myProds")))}
+          {displayLinksProd(JSON.parse(sessionStorage.getItem("myProds")))}
 
           <Route exact path='/backend/add-cat' element={
             <>
@@ -144,7 +220,34 @@ function App() {
               <Addproduct />
             </>
           } />
+
+
+
+          <Route exact path='/backend/edit-cat' element={
+            <>
+              <Editcat />
+            </>
+          } />
+
+          <Route exact path='/backend/edit-prod' element={
+            <>
+              <Editprod />
+            </>
+          } />
+
+          <Route exact path="/cart" element={
+            <>
+              <Navbar />
+              <Cart />
+              <Footer />
+            </>
+
+          } />
+
         </Routes>
+
+
+
       </Router>
 
     </>

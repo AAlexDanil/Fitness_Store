@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import React, { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
@@ -7,11 +7,10 @@ import {
     Link,
     Redirect,
 } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+
 
 function Category1({ category, products }) {
-  
+
     function displayImg(data) {
         return <img className="mw-75" width={1000} height={200} alt="test" src={`data:image/png;base64,${data}`} />
     }
@@ -22,7 +21,7 @@ function Category1({ category, products }) {
         if (products) {
 
             const prods = products.map(({ id, prodCat, prodName, prodImg, price }) =>
-                <Link className="mx-1 my-1 pt-3 d-flex justify-content-center align-items-center flex-direction-column bg-light w-30 " to={'/' + prodCat + '/' + prodName + id}>
+                <Link className="mx-1 my-1 pt-3 d-flex justify-content-center align-items-center flex-direction-column bg-light w-30 w-sm-45 " to={'/' + prodCat + '/' + prodName + id}>
 
                     {displayImg(prodImg)}
                     <p className="pt-2 text-black">{prodName}</p>
@@ -38,18 +37,18 @@ function Category1({ category, products }) {
 
     return (
         <>
-  
 
 
-                    <div className="col-lg-10 col-12 overflow-auto">
 
-                        <div className="d-flex w-full m-0 flex-wrap ">
+            <div className="col-lg-10 col-12 overflow-auto">
 
-                            {displayProducts(products)}
-                        </div>
+                <div className="d-flex w-full m-0 flex-wrap mx-auto ">
+
+                    {displayProducts(products)}
+                </div>
 
 
-                    </div>
+            </div>
 
 
 
